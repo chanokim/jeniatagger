@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -19,11 +19,11 @@ public class MainTest {
 
   static final String COMMON_ARGUMENTS = "--models src/test/resources/models --nt";
 
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-    //Force the dictionaries to be loaded only once at the beginning
-    JeniaTagger.setModelsPath("src/test/resources/models");
-    JeniaTagger.analyzeAll("load", true);
+  private JeniaTagger jeniaTagger;
+  
+  @Before
+  public void setUp() throws Exception {
+	  this.jeniaTagger = new JeniaTagger("src/test/resources/models");
   }
 
   @Test

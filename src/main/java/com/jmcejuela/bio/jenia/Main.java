@@ -63,24 +63,10 @@ public class Main {
   public static void main(String[] args) throws IOException {
     boolean dont_tokenize = false;
     String ifilename = null;
+    String modelsPath = "";
+    
     // String ofilename;
-
-    try {
-      for (int i = 0; i < args.length; i++) {
-        String arg = args[i];
-        if (arg.equals("--models"))
-          JeniaTagger.setModelsPath(args[++i]);
-        else if (arg.equals("--nt"))
-          dont_tokenize = true;
-        else if (arg.equals("--help"))
-          printHelpAndExit();
-        else
-          ifilename = arg;
-      }
-      JeniaTagger.getModelsPath(); //prove it is set
-    } catch (Exception e) {
-      printHelpAndExit(e);
-    }
+    JeniaTagger jeniaTagger = new JeniaTagger(modelsPath);
 
     // default, standard input
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -99,7 +85,7 @@ public class Main {
         System.err.println("warning: the sentence seems to be too long at line " + n +
             " (please note that the input should be one-sentence-per-line).");
       }
-      Sentence analysis = JeniaTagger.analyzeAll(line, dont_tokenize);
+      Sentence analysis = jeniaTagger.analyzeAll(line, dont_tokenize);
       System.out.println(analysis);
       n++;
     }

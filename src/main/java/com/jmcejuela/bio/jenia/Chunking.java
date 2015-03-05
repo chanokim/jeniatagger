@@ -30,11 +30,8 @@ public class Chunking {
 
   static final int TAG_WINDOW_SIZE = 1;
   static final int BEAM_NUM = 1;
-  // static final int BEAM_NUM = 10;
   static final double BEAM_WINDOW = 0.01;
   static final boolean ONLY_VERTICAL_FEATURES = false;
-
-  // static final boolean DISTANT_FEATURES = false;
 
   enum DecodingStrategy {
     LEFT_TO_RIGHT, RIGHT_TO_LEFT, EASIEST_FIRST
@@ -283,7 +280,7 @@ public class Chunking {
     }
   };
 
-  static void generate_hypotheses(final int order, final Hypothesis h,
+  void generate_hypotheses(final int order, final Hypothesis h,
       final ArrayList<ME_Model> vme,
       List<Hypothesis> vh)
   {
@@ -341,9 +338,9 @@ public class Chunking {
     }
   }
 
-  static void bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> chunkingModels) {
+  Sentence bidir_chunking_decode_beam(Sentence sentence, final ArrayList<ME_Model> chunkingModels) {
     int n = sentence.size();
-    if (n == 0) return;
+    if (n == 0) return null;
 
     ArrayList<Hypothesis> hypotheses = newArrayList();
     Hypothesis hyp = new Hypothesis(sentence, chunkingModels);
@@ -364,13 +361,11 @@ public class Chunking {
     if (!hypotheses.isEmpty()) {
       hyp = last(hypotheses);
     } else {
-      // cerr << "warning: no hypothesis found" << endl;
       hyp = new Hypothesis(sentence, chunkingModels);
     }
 
     ArrayList<String> tags = newArrayList();
     for (int k = 0; k < n; k++) {
-      // cout << h.vt.get(k].str << "/" << h.vt[k).cprd << "/" << h.order[k] << " ";
       tags.add(hyp.sentence.get(k).chunk);
     }
 
@@ -378,22 +373,7 @@ public class Chunking {
     for (int k = 0; k < n; k++) {
       sentence.get(k).chunk = tags.get(k);
     }
-
-    // cout << endl;
+    return sentence;
   }
-
-  /*
-   * void bidir_chunking(ArrayList<Sentence> vs, final ArrayList<ME_Model> vme)
-   * { cerr << "now tagging";
-   * 
-   * int n = 0; int ntokens = 0; for (ArrayList<Sentence>::iterator i =
-   * vs.begin(); i != vs.end(); i++) { Sentence s = *i; ntokens += s.size();
-   * bidir_decode_beam(s, vme); // bidir_decode_search(s, vme[0], vme[4],
-   * vme[2], vme[6]); // decode_no_context(s, vme[0]); // decode_l1(s, vme[4]);
-   * 
-   * cout << n << endl; if (n++ % 10 == 0) cerr << "."; } cerr << endl;
-   * 
-   * // cerr << ntokens / (msec/1000.0) << " tokens / sec" << endl; }
-   */
 
 }
