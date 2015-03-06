@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<groupId>com.jmcejuela.bio</groupId>
+  <artifactId>jeniatagger</artifactId>
+  <versioning>
+    <release>0.4.0-serializable</release>
+    <versions><version>0.4.0-serializable</version></versions>
+    <lastUpdated>20150305000000</lastUpdated>
+  </versioning>
+</metadata>
